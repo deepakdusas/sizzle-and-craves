@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sizzle & Craves</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f8f4f1;--sf:#fff;--tx:#2a1f1b;--mu:#7a6a62;--ln:#e6dcd5;--ember:#c8321e;--saf:#f2a93b;--hero:#3b1410;--ok:#2e7d4f;--hd:#f8f4f1;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d1613;--sf:#2a201c;--tx:#f3e9e3;--mu:#b3a198;--ln:#43342e;--hero:#4a1913;--hd:#1d1613;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1d1613;--sf:#2a201c;--tx:#f3e9e3;--mu:#b3a198;--ln:#43342e;--hero:#4a1913;--hd:#1d1613;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 'DM Sans',system-ui,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--hd);z-index:30}
+h1,h2,h3{font-family:'Bricolage Grotesque','DM Sans',sans-serif;margin:0;line-height:1.1}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--hd);border-bottom:1px solid var(--ln);display:flex;align-items:center;gap:8px;padding:10px 16px;flex-wrap:wrap}
+.logo{font:800 22px 'Bricolage Grotesque',sans-serif;color:var(--ember);margin-right:auto;text-decoration:none}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav a,.btn{border:0;background:none;color:var(--tx);font:500 15px 'DM Sans',sans-serif;padding:8px 12px;border-radius:8px;cursor:pointer;text-decoration:none}
+nav a:hover,nav a.on{background:var(--sf);box-shadow:inset 0 0 0 1px var(--ln)}
+.btn.p{background:var(--ember);color:#fff;font-weight:700}
+.btn.w{background:#1f9d55;color:#fff;font-weight:700}
+.btn.g{box-shadow:inset 0 0 0 1px var(--ln);background:var(--sf)}
+.btn.s{padding:5px 10px;font-size:13px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+:focus-visible{outline:3px solid var(--saf);outline-offset:2px}
+.hero{background:var(--hero);color:#fff4ea;padding:56px 20px}
+.hero>div{max-width:1000px;margin:auto}
+.hero h1{font-size:clamp(40px,9vw,84px);font-weight:800;letter-spacing:-.02em}
+.hero h1 span{color:var(--saf)}
+.hero p{max-width:46ch;opacity:.85;font-size:18px}
+.wrap{max-width:1000px;margin:auto;padding:28px 16px 80px}
+.view{display:none}.view.on{display:block}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+.chip{border:1px solid var(--ln);background:var(--sf);color:var(--tx);padding:6px 14px;border-radius:99px;cursor:pointer;font:500 14px 'DM Sans'}
+.chip.on{background:var(--ember);color:#fff;border-color:var(--ember)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:12px;padding:16px}
+.item{display:flex;flex-direction:column;gap:6px}
+.em{font-size:44px;line-height:1}
+.dot{display:inline-block;width:12px;height:12px;border:2px solid var(--ok);border-radius:3px;position:relative;vertical-align:middle;margin-right:6px}
+.dot::after{content:"";position:absolute;inset:2px;border-radius:50%;background:var(--ok)}
+.dot.n{border-color:var(--ember)}.dot.n::after{background:var(--ember)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.mu{color:var(--mu);font-size:14px}
+input,select,textarea{width:100%;padding:10px;border:1px solid var(--ln);border-radius:8px;background:var(--bg);color:var(--tx);font:16px 'DM Sans',sans-serif}
+label{display:block;font-size:14px;margin:10px 0 4px;color:var(--mu)}
+.narrow{max-width:420px;margin:auto}
+#drawer{position:fixed;top:0;right:0;bottom:0;width:min(400px,100%);background:var(--sf);z-index:40;border-left:1px solid var(--ln);padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));padding-top:calc(16px + env(safe-area-inset-top,0px));overflow:auto;transform:translateX(105%);transition:transform .25s}
+#drawer.on{transform:none}
+.steps{display:flex;gap:4px;margin:12px 0}
+.steps div{flex:1;text-align:center;font-size:12px;padding:6px 2px;border-radius:6px;background:var(--bg);color:var(--mu)}
+.steps div.d{background:var(--ok);color:#fff}
+.stat{font:800 30px 'Bricolage Grotesque'}
+.bar{height:10px;background:var(--ember);border-radius:5px}
+.low{color:var(--ember);font-weight:700}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:520px}
+td,th{padding:8px;border-bottom:1px solid var(--ln);text-align:left;font-size:14px}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:10px 18px;border-radius:99px;z-index:50;opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.on{opacity:1}
+@media(prefers-reduced-motion:reduce){#drawer{transition:none}}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="#home">Sizzle &amp; Craves</a>
+  <nav id="nav">
+    <a href="#menu">Menu</a><a href="#track">Order track</a><a href="#account" id="accL">Login</a><a href="#owner">Owner panel</a>
+  </nav>
+  <button class="btn p" id="cartBtn">Cart (<span id="cc">0</span>)</button>
+</header>
+
+<aside id="drawer" aria-label="Cart">
+  <div class="row"><h2>Aapka cart</h2><button class="btn g s" id="closeCart">Band karein</button></div>
+  <div id="cartBody"></div>
+</aside>
+
+<main>
+<section class="view" id="v-home">
+  <div class="hero"><div>
+    <h1>Sizzle <span>&amp;</span> Craves</h1>
+    <p>Tandoor ki aanch, tawe ki sizzle aur ghar jaisa swaad. Menu se chuniye, website ya WhatsApp par order kijiye, aur live track kijiye.</p>
+    <p><a class="btn p" href="#menu">Menu dekhein</a> <a class="btn g" href="#track" style="color:#fff4ea;background:transparent">Order track karein</a></p>
+  </div></div>
+  <div class="wrap"><h2>Aaj ke favourites</h2><div class="grid" id="fav"></div></div>
+</section>
+
+<section class="view" id="v-menu"><div class="wrap">
+  <h2>Menu</h2><div class="tabs" id="cats"></div><div class="grid" id="menuG"></div>
+</div></section>
+
+<section class="view" id="v-account"><div class="wrap" id="accBox"></div></section>
+
+<section class="view" id="v-track"><div class="wrap">
+  <h2>Order tracking</h2>
+  <div class="card" style="margin:14px 0"><label for="tid">Order ID se dhundhein</label>
+  <div class="row"><input id="tid" placeholder="jaise SC1001"><button class="btn p" id="tbtn">Track</button></div></div>
+  <div id="tList"></div>
+</div></section>
+
+<section class="view" id="v-owner"><div class="wrap" id="ownBox"></div></section>
+</main>
+<div id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ST=['Received','Preparing','Out for delivery','Delivered'];
+const mem={};
+const ld=(k,d)=>{try{const v=localStorage.getItem('sc_'+k);if(v)return JSON.parse(v)}catch(e){}return mem[k]??d};
+const sv=(k,v)=>{mem[k]=v;try{localStorage.setItem('sc_'+k,JSON.stringify(v))}catch(e){}};
+const DEF=[
+['Paneer Tikka','Starters',220,1,'🧀',25],['Chicken Seekh Kebab','Starters',260,0,'🍢',20],['Crispy Corn','Starters',180,1,'🌽',30],
+['Butter Chicken','Mains',320,0,'🍗',22],['Dal Makhani','Mains',240,1,'🍲',30],['Kadhai Paneer','Mains',280,1,'🥘',20],['Mutton Rogan Josh','Mains',420,0,'🍖',12],
+['Chicken Biryani','Biryani & Breads',300,0,'🍚',25],['Veg Pulao','Biryani & Breads',200,1,'🍛',25],['Garlic Naan','Biryani & Breads',60,1,'🫓',60],
+['Sizzling Brownie','Sweet & Sips',220,1,'🍫',15],['Gulab Jamun','Sweet & Sips',90,1,'🍮',40],['Masala Chai','Sweet & Sips',40,1,'☕',80],['Sweet Lassi','Sweet & Sips',80,1,'🥛',35]
+].map((a,i)=>({id:'m'+i,name:a[0],cat:a[1],price:a[2],veg:a[3],emo:a[4],stock:a[5]}));
+let menu=ld('menu',DEF), orders=ld('orders',[]), users=ld('users',[]), me=ld('me',null), cart=ld('cart',[]);
+let biz=ld('biz',{name:'Sizzle & Craves',phone:'9999999999',wa:'919999999999',addr:'Jaipur, Rajasthan',hours:'12:00 PM – 11:30 PM',gst:'',pin:'1234'});
+let cat='Sab', ownerIn=false, otab='orders';
+const inr=n=>'₹'+Number(n).toLocaleString('en-IN');
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),2200)}
+
+/* ---------- routing ---------- */
+function route(){
+  const h=(location.hash||'#home').slice(1);const v=['home','menu','account','track','owner'].includes(h)?h:'home';
+  document.querySelectorAll('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));
+  document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+v));
+  ({home:rHome,menu:rMenu,account:rAcc,track:()=>rTrack(),owner:rOwner})[v]();
+  $('#accL').textContent=me?'Mera account':'Login';
+  scrollTo(0,0);
+}
+addEventListener('hashchange',route);
+
+/* ---------- menu ---------- */
+function itemCard(m){
+  return `<div class="card item"><div class="row"><span class="em">${m.emo}</span><span class="mu">${m.stock>0?(m.stock<=5?'Sirf '+m.stock+' bache':''):'Khatam'}</span></div>
+  <h3><span class="dot ${m.veg?'':'n'}"></span>${esc(m.name)}</h3>
+  <div class="row"><strong>${inr(m.price)}</strong><button class="btn p s" data-add="${m.id}" ${m.stock<1?'disabled':''}>Add karein</button></div></div>`}
+function rHome(){$('#fav').innerHTML=menu.filter(m=>['Butter Chicken','Chicken Biryani','Paneer Tikka','Sizzling Brownie'].includes(m.name)).map(itemCard).join('')}
+function rMenu(){
+  const cats=['Sab',...new Set(menu.map(m=>m.cat))];
+  $('#cats').innerHTML=cats.map(c=>`<button class="chip ${c===cat?'on':''}" data-cat="${esc(c)}">${esc(c)}</button>`).join('');
+  $('#menuG').innerHTML=menu.filter(m=>cat==='Sab'||m.cat===cat).map(itemCard).join('');
+}
+document.addEventListener('click',e=>{
+  const a=e.target.closest('[data-add]');if(a){addCart(a.dataset.add)}
+  const c=e.target.closest('[data-cat]');if(c){cat=c.dataset.cat;rMenu()}
+});
+
+/* ---------- cart ---------- */
+function addCart(id){const m=menu.find(x=>x.id===id),l=cart.find(x=>x.id===id);
+  if((l?l.qty:0)+1>m.stock)return toast('Itna stock nahi hai');
+  l?l.qty++:cart.push({id,qty:1});sv('cart',cart);rCart();toast(m.name+' add ho gaya')}
+const cTotal=()=>cart.reduce((s,l)=>s+l.qty*menu.find(m=>m.id===l.id).price,0);
+function rCart(){
+  $('#cc').textContent=cart.reduce((s,l)=>s+l.qty,0);
+  if(!cart.length){$('#cartBody').innerHTML='<p class="mu">Cart khali hai. Menu se kuch chuniye.</p>';return}
+  $('#cartBody').innerHTML=cart.map(l=>{const m=menu.find(x=>x.id===l.id);return `<div class="row" style="margin:10px 0"><span>${m.emo} ${esc(m.name)}<br><span class="mu">${inr(m.price)}</span></span>
+  <span><button class="btn g s" data-q="${l.id}:-1" aria-label="Kam karein">−</button> ${l.qty} <button class="btn g s" data-q="${l.id}:1" aria-label="Badhayein">+</button></span></div>`}).join('')+
+  `<hr><div class="row"><strong>Total</strong><strong>${inr(cTotal())}</strong></div>
+  <label for="cn">Naam</label><input id="cn" value="${esc(me?me.name:'')}">
+  <label for="cp">Phone</label><input id="cp" inputmode="tel" value="${esc(me?me.phone:'')}">
+  <label for="ca">Delivery address</label><textarea id="ca" rows="2"></textarea>
+  <p><button class="btn p" id="place" style="width:100%">Website par order karein</button></p>
+  <p><button class="btn w" id="wa" style="width:100%">WhatsApp par order karein</button></p>`;
+}
+$('#cartBtn').onclick=()=>$('#drawer').classList.add('on');
+$('#closeCart').onclick=()=>$('#drawer').classList.remove('on');
+$('#cartBody').addEventListener('click',e=>{
+  const q=e.target.closest('[data-q]');
+  if(q){const[id,d]=q.dataset.q.split(':');const l=cart.find(x=>x.id===id);const m=menu.find(x=>x.id===id);
+    if(+d>0&&l.qty+1>m.stock)return toast('Itna stock nahi hai');
+    l.qty+=+d;cart=cart.filter(x=>x.qty>0);sv('cart',cart);rCart()}
+  if(e.target.id==='place')placeOrder('website');
+  if(e.target.id==='wa')placeOrder('whatsapp');
+});
+function placeOrder(src){
+  const name=$('#cn').value.trim(),phone=$('#cp').value.trim(),addr=$('#ca').value.trim();
+  if(!name||!/^\d{10}$/.test(phone)||!addr)return toast('Naam, 10 digit phone aur address bharein');
+  const items=cart.map(l=>{const m=menu.find(x=>x.id===l.id);return{id:m.id,name:m.name,price:m.price,qty:l.qty}});
+  const total=cTotal();
+  const o={id:'SC'+(1001+orders.length),uid:me?me.phone:phone,name,phone,addr,items,total,status:'Received',time:Date.now(),src};
+  items.forEach(i=>{const m=menu.find(x=>x.id===i.id);m.stock=Math.max(0,m.stock-i.qty)});
+  orders.push(o);sv('orders',orders);sv('menu',menu);cart=[];sv('cart',cart);rCart();
+  if(src==='whatsapp'){
+    const txt=`Namaste ${biz.name}!%0AOrder ${o.id}%0A`+items.map(i=>`${i.qty} x ${i.name} = ${inr(i.price*i.qty)}`).join('%0A')+`%0ATotal: ${inr(total)}%0ANaam: ${name}%0APhone: ${phone}%0AAddress: ${addr}`;
+    window.open(`https://wa.me/${biz.wa}?text=${encodeURI(txt).replace(/%250A/g,'%0A')}`,'_blank');
+  }
+  $('#drawer').classList.remove('on');toast('Order '+o.id+' mil gaya');
+  $('#tid').value=o.id;location.hash='#track';
+}
+
+/* ---------- account ---------- */
+function rAcc(){
+  const b=$('#accBox');
+  if(me){const my=orders.filter(o=>o.uid===me.phone);
+    b.innerHTML=`<div class="card narrow"><h2>Namaste, ${esc(me.name)}</h2><p class="mu">${esc(me.phone)}<br>Total orders: ${my.length}</p><button class="btn g" id="out">Logout</button> <a class="btn p" href="#track">Mere orders</a></div>`;
+    $('#out').onclick=()=>{me=null;sv('me',null);route()};return}
+  b.innerHTML=`<div class="card narrow"><div class="tabs"><button class="chip on" id="tl">Login</button><button class="chip" id="ts">Naya account</button></div>
+  <form id="af" onsubmit="return false"><div id="nm" style="display:none"><label for="an">Naam</label><input id="an"></div>
+  <label for="ap">Phone number</label><input id="ap" inputmode="tel" maxlength="10">
+  <label for="aw">Password</label><input id="aw" type="password">
+  <p><button class="btn p" id="go" style="width:100%">Login karein</button></p></form>
+  <p class="mu">Demo mode: account sirf is browser mein save hota hai.</p></div>`;
+  let mode='l';
+  const sw=m=>{mode=m;$('#nm').style.display=m==='s'?'block':'none';$('#tl').classList.toggle('on',m==='l');$('#ts').classList.toggle('on',m==='s');$('#go').textContent=m==='l'?'Login karein':'Account banayein'};
+  $('#tl').onclick=()=>sw('l');$('#ts').onclick=()=>sw('s');
+  $('#go').onclick=()=>{const p=$('#ap').value.trim(),w=$('#aw').value;
+    if(!/^\d{10}$/.test(p)||w.length<4)return toast('10 digit phone aur 4+ akshar ka password dalein');
+    if(mode==='s'){const n=$('#an').value.trim();if(!n)return toast('Naam likhein');
+      if(users.some(u=>u.phone===p))return toast('Yeh number pehle se registered hai');
+      users.push({name:n,phone:p,pw:w});sv('users',users);me={name:n,phone:p}}
+    else{const u=users.find(u=>u.phone===p&&u.pw===w);if(!u)return toast('Phone ya password galat hai');me={name:u.name,phone:p}}
+    sv('me',me);toast('Welcome!');route()};
+}
+
+/* ---------- tracking ---------- */
+function trackCard(o){
+  const i=ST.indexOf(o.status);
+  return `<div class="card" style="margin-bottom:12px"><div class="row"><strong>${o.id}</strong><span class="mu">${new Date(o.time).toLocaleString('en-IN')}</span></div>
+  <p class="mu">${o.items.map(x=>x.qty+' × '+esc(x.name)).join(', ')}</p>
+  ${o.status==='Cancelled'?'<p class="low">Order cancel ho gaya</p>':`<div class="steps">${ST.map((s,k)=>`<div class="${k<=i?'d':''}">${s}</div>`).join('')}</div>`}
+  <div class="row"><span>${inr(o.total)}</span><span class="mu">${o.src==='whatsapp'?'WhatsApp order':'Website order'}</span></div></div>`}
+function rTrack(id){
+  let list=[];
+  if(id)list=orders.filter(o=>o.id.toLowerCase()===id.toLowerCase());
+  else if(me)list=orders.filter(o=>o.uid===me.phone).reverse();
+  $('#tList').innerHTML=list.length?list.map(trackCard).join(''):`<p class="mu">${id?'Yeh order ID nahi mili.':'Order ID dalein, ya <a href="#account">login</a> karke apne saare orders dekhein.'}</p>`;
+}
+$('#tbtn').onclick=()=>rTrack($('#tid').value.trim());
+
+/* ---------- owner panel ---------- */
+function rOwner(){
+  const b=$('#ownBox');
+  if(!ownerIn){b.innerHTML=`<div class="card narrow"><h2>Owner login</h2><label for="op">PIN</label><input id="op" type="password" inputmode="numeric"><p><button class="btn p" id="oi">Andar jayein</button></p><p class="mu">Demo PIN: 1234 (Business tab mein badal sakte hain)</p></div>`;
+    $('#oi').onclick=()=>{if($('#op').value===biz.pin){ownerIn=true;rOwner()}else toast('PIN galat hai')};return}
+  const tabs={orders:'Orders',sales:'Sales',inv:'Inventory',biz:'Business'};
+  b.innerHTML=`<div class="row"><h2>${esc(biz.name)} · Dashboard</h2><button class="btn g s" id="lo">Logout</button></div>
+  <div class="tabs">${Object.entries(tabs).map(([k,v])=>`<button class="chip ${k===otab?'on':''}" data-ot="${k}">${v}</button>`).join('')}</div><div id="ob"></div>`;
+  $('#lo').onclick=()=>{ownerIn=false;rOwner()};
+  ({orders:oOrders,sales:oSales,inv:oInv,biz:oBiz})[otab]();
+}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-ot]');if(t){otab=t.dataset.ot;rOwner()}});
+function oOrders(){
+  const l=[...orders].reverse();
+  $('#ob').innerHTML=l.length?`<div class="scroll"><table><tr><th>ID</th><th>Customer</th><th>Items</th><th>Total</th><th>Source</th><th>Status</th></tr>`+
+  l.map(o=>`<tr><td>${o.id}</td><td>${esc(o.name)}<br><span class="mu">${esc(o.phone)}</span></td><td>${o.items.map(x=>x.qty+'× '+esc(x.name)).join(', ')}<br><span class="mu">${esc(o.addr)}</span></td><td>${inr(o.total)}</td><td>${o.src}</td>
+  <td><select data-os="${o.id}" aria-label="Status">${[...ST,'Cancelled'].map(s=>`<option ${s===o.status?'selected':''}>${s}</option>`).join('')}</select></td></tr>`).join('')+'</table></div>':'<p class="mu">Abhi tak koi order nahi aaya.</p>';
+}
+document.addEventListener('change',e=>{
+  const s=e.target.closest('[data-os]');
+  if(s){const o=orders.find(x=>x.id===s.dataset.os);
+    if(s.value==='Cancelled'&&o.status!=='Cancelled')o.items.forEach(i=>{const m=menu.find(x=>x.id===i.id);if(m)m.stock+=i.qty});
+    if(o.status==='Cancelled'&&s.value!=='Cancelled')o.items.forEach(i=>{const m=menu.find(x=>x.id===i.id);if(m)m.stock=Math.max(0,m.stock-i.qty)});
+    o.status=s.value;sv('orders',orders);sv('menu',menu);toast(o.id+': '+o.status)}
+  const st=e.target.closest('[data-st]');if(st){menu.find(m=>m.id===st.dataset.st).stock=Math.max(0,+st.value||0);sv('menu',menu);toast('Stock update hua')}
+  const pr=e.target.closest('[data-pr]');if(pr){menu.find(m=>m.id===pr.dataset.pr).price=Math.max(0,+pr.value||0);sv('menu',menu);toast('Price update hua')}
+});
+function oSales(){
+  const ok=orders.filter(o=>o.status!=='Cancelled'),rev=ok.reduce((s,o)=>s+o.total,0);
+  const day=new Date().toDateString(),td=ok.filter(o=>new Date(o.time).toDateString()===day);
+  const cnt={};ok.forEach(o=>o.items.forEach(i=>cnt[i.name]=(cnt[i.name]||0)+i.qty));
+  const top=Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,5),mx=top[0]?top[0][1]:1;
+  $('#ob').innerHTML=`<div class="grid">
+  <div class="card"><div class="mu">Aaj ki sale</div><div class="stat">${inr(td.reduce((s,o)=>s+o.total,0))}</div><div class="mu">${td.length} orders</div></div>
+  <div class="card"><div class="mu">Total sale</div><div class="stat">${inr(rev)}</div><div class="mu">${ok.length} orders</div></div>
+  <div class="card"><div class="mu">Average order</div><div class="stat">${inr(ok.length?Math.round(rev/ok.length):0)}</div></div>
+  <div class="card"><div class="mu">WhatsApp / Website</div><div class="stat">${ok.filter(o=>o.src==='whatsapp').length} / ${ok.filter(o=>o.src==='website').length}</div></div></div>
+  <div class="card" style="margin-top:14px"><h3>Sabse zyada bikne wale</h3>${top.length?top.map(([n,c])=>`<div style="margin:10px 0"><div class="row"><span>${esc(n)}</span><span>${c}</span></div><div class="bar" style="width:${c/mx*100}%"></div></div>`).join(''):'<p class="mu">Sale data abhi nahi hai.</p>'}</div>`;
+}
+function oInv(){
+  $('#ob').innerHTML=`<div class="scroll"><table><tr><th>Item</th><th>Price (₹)</th><th>Stock</th></tr>`+menu.map(m=>`<tr><td>${m.emo} ${esc(m.name)}</td>
+  <td><input type="number" min="0" value="${m.price}" data-pr="${m.id}" style="width:90px" aria-label="Price"></td>
+  <td><input type="number" min="0" value="${m.stock}" data-st="${m.id}" style="width:90px" aria-label="Stock"> ${m.stock<=5?'<span class="low">Kam stock</span>':''}</td></tr>`).join('')+`</table></div>
+  <div class="card" style="margin-top:14px"><h3>Naya item jodein</h3><div class="grid">
+  <div><label for="ni">Naam</label><input id="ni"></div><div><label for="nc">Category</label><input id="nc" value="Mains"></div>
+  <div><label for="np">Price</label><input id="np" type="number"></div><div><label for="ns">Stock</label><input id="ns" type="number"></div></div>
+  <p><button class="btn p" id="nadd">Item jodein</button></p></div>`;
+  $('#nadd').onclick=()=>{const n=$('#ni').value.trim(),p=+$('#np').value;if(!n||!p)return toast('Naam aur price bharein');
+    menu.push({id:'m'+Date.now(),name:n,cat:$('#nc').value.trim()||'Mains',price:p,veg:1,emo:'🍽️',stock:+$('#ns').value||0});sv('menu',menu);toast('Item add hua');oInv()};
+}
+function oBiz(){
+  const f=[['name','Restaurant ka naam'],['phone','Phone'],['wa','WhatsApp number (91 ke saath)'],['addr','Address'],['hours','Timing'],['gst','GST number'],['pin','Owner PIN']];
+  $('#ob').innerHTML=`<div class="card narrow" style="margin:0">`+f.map(([k,l])=>`<label for="b_${k}">${l}</label><input id="b_${k}" value="${esc(biz[k])}">`).join('')+`<p><button class="btn p" id="bs">Save karein</button></p></div>`;
+  $('#bs').onclick=()=>{f.forEach(([k])=>biz[k]=$('#b_'+k).value.trim());sv('biz',biz);toast('Business details save ho gayi')};
+}
+
+rCart();route();
+</script>
+</body>
+</html>
